@@ -3,54 +3,69 @@ html {
     display: inline-block;
     text-align: center;
 }
+
 h1 {
     font-size: 1.8rem;
     color: white;
+    margin: 0;
+    padding: 20px;
 }
+
 .topnav {
     overflow: hidden;
     background-color: #0A1128;
 }
+
 body {
     margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light background for better contrast */
 }
+
 .content {
-    padding: 50px;
+    padding: 20px; /* Reduced padding for better fitting on smaller screens */
 }
+
 .card-grid {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     margin-bottom: 30px;
     display: grid;
     grid-gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    padding: 0 20px; /* Add some padding for better layout on smaller screens */
 }
+
 .card {
     background-color: white;
-    box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+    box-shadow: 2px 2px 12px 1px rgba(140, 140, 140, 0.5);
+    border-radius: 8px; /* Rounded corners for better aesthetics */
+    padding: 20px;
 }
+
 button {
     color: white;
-    padding: 14px 20px;
+    padding: 12px 18px; /* Adjust padding to fit better on smaller screens */
     margin: 8px 0;
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 1rem;
 }
 
-.onButton{
+.onButton {
     background-color: #1b8a94;
 }
 
-.offButton{
+.offButton {
     background-color: #5f6c6d;
 }
 
-.connectButton{
+.connectButton {
     background-color: #24af37;
 }
 
-.disconnectButton{
+.disconnectButton {
     background-color: #d13a30;
 }
 
@@ -61,4 +76,68 @@ button {
 
 .reading { 
     font-size: 1.8rem;
+}
+
+/* Container for vehicle images */
+.vehicle-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows the items to wrap on smaller screens */
+    gap: 20px; /* Space between the cards */
+    justify-content: center; /* Space items evenly */
+    align-items: center; /* Align items vertically */
+    margin-top: 20px;
+}
+
+/* Styling for individual vehicle cards */
+.vehicle-card {
+    text-align: center;
+    flex: 1 1 calc(50% - 40px); /* Responsive width: takes 50% minus the gap */
+    box-sizing: border-box; /* Includes padding and border in width calculations */
+    max-width: 200px; /* Optional: set a max width to keep images consistent */
+    margin-bottom: 20px;
+}
+
+/* Vehicle images */
+.vehicle-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Rounded corners for better aesthetics */
+}
+
+/* Responsive media queries for smaller devices */
+@media (max-width: 768px) {
+    .vehicle-card {
+        flex: 1 1 calc(100% - 20px); /* Takes full width on smaller screens */
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr; /* Stack all cards on top of each other for better visibility on small screens */
+    }
+
+    button {
+        padding: 10px 16px; /* Reduce padding to make buttons fit on smaller screens */
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Smaller title size on small screens */
+    }
+
+    .content {
+        padding: 10px; /* Reduce content padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-gap: 1rem; /* Reduce the gap between cards for smaller devices */
+    }
+
+    .vehicle-container {
+        gap: 10px; /* Reduce space between vehicle cards */
+    }
+
+    .vehicle-card {
+        max-width: 150px; /* Reduce the max width for better fitting */
+    }
 }
