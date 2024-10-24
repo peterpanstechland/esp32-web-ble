@@ -28,7 +28,7 @@ const int maxDutyCycle = 128;  // Corresponds to 2500us pulse width (~180 degree
 
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
-#define SERVICE_UUID "19b10000-e8f2-537e-4f6c-d104768a1214"
+#define SERVICE_UUID        "19b10000-e8f2-537e-4f6c-d104768a1214"
 #define SENSOR_CHARACTERISTIC_UUID "19b10001-e8f2-537e-4f6c-d104768a1214"
 #define LED_CHARACTERISTIC_UUID "19b10002-e8f2-537e-4f6c-d104768a1214"
 
@@ -86,7 +86,7 @@ void setup() {
   Serial.println("Servo initialized to 90 degrees.");
 
   // Create the BLE Device
-  BLEDevice::init("Flash");
+  BLEDevice::init("ESP32");
 
   // Create the BLE Server
   pServer = BLEDevice::createServer();
