@@ -17,7 +17,7 @@ bool oldDeviceConnected = false;
 uint32_t value = 0;
 
 // Servo control using ESP32's LEDC
-const int servoPin = D1;       // GPIO pin connected to the servo signal
+const int servoPin = 16;       // GPIO pin connected to the servo signal
 const int pwmChannel = 0;      // PWM channel to use for the servo
 const int pwmFrequency = 50;   // Frequency for the servo (50 Hz is typical for servos)
 const int pwmResolution = 10;  // Resolution of PWM signal (10-bit for finer control)
