@@ -36,7 +36,9 @@ class MyServerCallbacks : public BLEServerCallbacks {
 
 class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic* pLedCharacteristic) {
-    String value = String(pLedCharacteristic->getValue().c_str());
+    // String value = String(pLedCharacteristic->getValue().c_str());
+        std::string value = pLedCharacteristic->getValue();
+
     if (value.length() > 0) {
       Serial.print("Characteristic event, written: ");
       Serial.println(static_cast<int>(value[0]));  // Print the integer value

@@ -49,7 +49,7 @@
                 <h2>车辆控制</h2>
                 <button id="onButton" class="onButton">开车</button>
                 <button id="offButton" class="offButton">结束</button>
-                <p class="gray-label">Last value sent: <span id="valueSent"></span></p>
+                <p class="gray-label">当前状态：<span id="valueSent"></span></p>
             </div>
         </div>
     </div>
@@ -168,26 +168,48 @@
         timestampContainer.innerHTML = getDateTime();
     }
 
-    function writeOnCharacteristic(value){
-        if (bleServer && bleServer.connected) {
-            bleServiceFound.getCharacteristic(ledCharacteristic)
-            .then(characteristic => {
-                console.log("Found the LED characteristic: ", characteristic.uuid);
-                const data = new Uint8Array([value]);
-                return characteristic.writeValue(data);
-            })
-            .then(() => {
-                latestValueSent.innerHTML = value;
-                console.log("Value written to LEDcharacteristic:", value);
-            })
-            .catch(error => {
-                console.error("Error writing to the LED characteristic: ", error);
-            });
-        } else {
-            console.error ("Bluetooth is not connected. Cannot write to characteristic.")
-            window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
-        }
-    }
+    // function writeOnCharacteristic(value){
+    //     if (bleServer && bleServer.connected) {
+    //         bleServiceFound.getCharacteristic(ledCharacteristic)
+    //         .then(characteristic => {
+    //             console.log("Found the LED characteristic: ", characteristic.uuid);
+    //             const data = new Uint8Array([value]);
+    //             return characteristic.writeValue(data);
+    //         })
+    //         .then(() => {
+    //             latestValueSent.innerHTML = value;
+    //             console.log("Value written to LEDcharacteristic:", value);
+    //         })
+    //         .catch(error => {
+    //             console.error("Error writing to the LED characteristic: ", error);
+    //         });
+    //     } else {
+    //         console.error ("Bluetooth is not connected. Cannot write to characteristic.")
+    //         window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
+    //     }
+    // }
+    function writeOnCharacteristic(value) {
+  if (bleServer && bleServer.connected) {
+    bleServiceFound.getCharacteristic(ledCharacteristic)
+      .then(characteristic => {
+        console.log("Found the LED characteristic: ", characteristic.uuid);
+        // Convert value to a Uint8Array
+        const data = new Uint8Array([value]);
+        console.log("Writing value to characteristic:", data);
+        return characteristic.writeValue(data);
+      })
+      .then(() => {
+        latestValueSent.innerHTML = value;
+        console.log("Value written to LED characteristic:", value);
+      })
+      .catch(error => {
+        console.error("Error writing to the LED characteristic: ", error);
+      });
+  } else {
+    console.error("Bluetooth is not connected. Cannot write to characteristic.");
+    window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!");
+  }
+}
 
     function disconnectDevice() {
         console.log("Disconnect Device.");
