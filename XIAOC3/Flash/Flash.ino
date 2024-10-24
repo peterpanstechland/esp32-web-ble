@@ -1,3 +1,9 @@
+/*
+  Rui Santos & Sara Santos - Random Nerd Tutorials
+  Complete project details at https://RandomNerdTutorials.com/esp32-web-bluetooth/
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
@@ -20,9 +26,11 @@ const int pwmResolution = 10;  // Resolution of PWM signal (10-bit for finer con
 const int minDutyCycle = 26;   // Corresponds to 500us pulse width (~0 degrees)
 const int maxDutyCycle = 128;  // Corresponds to 2500us pulse width (~180 degrees)
 
-#define SERVICE_UUID "0f2456a6-4bac-4503-b09a-ba88b67fc548"
-#define SENSOR_CHARACTERISTIC_UUID "ad02a08d-204c-4f14-b209-593fc84b0a9d"
-#define LED_CHARACTERISTIC_UUID "466387d3-a394-49cf-b10e-4419d984fdc6"
+// See the following for generating UUIDs:
+// https://www.uuidgenerator.net/
+#define SERVICE_UUID "19b10000-e8f2-537e-4f6c-d104768a1214"
+#define SENSOR_CHARACTERISTIC_UUID "19b10001-e8f2-537e-4f6c-d104768a1214"
+#define LED_CHARACTERISTIC_UUID "19b10002-e8f2-537e-4f6c-d104768a1214"
 
 class MyServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
@@ -36,15 +44,12 @@ class MyServerCallbacks : public BLEServerCallbacks {
 
 class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic* pLedCharacteristic) {
-    // String value = String(pLedCharacteristic->getValue().c_str());
-        std::string value = pLedCharacteristic->getValue();
-
+    std::string value = pLedCharacteristic->getValue();
     if (value.length() > 0) {
       Serial.print("Characteristic event, written: ");
       Serial.println(static_cast<int>(value[0]));  // Print the integer value
 
       int receivedValue = static_cast<int>(value[0]);
-      Serial.println(receivedValue);
       if (receivedValue == 1) {
         Serial.println("Press once");
 
@@ -54,11 +59,11 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
         delay(500);
         dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
-      } else if (receivedValue == 2) {
+      } else if (receivedValue == 0){
         Serial.println("Setting servo to 180 degrees...");
 
         // Map the value of 180 degrees to the duty cycle range
-       int dutyCycle = map(180, 0, 180, minDutyCycle, maxDutyCycle);
+        int dutyCycle = map(180, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
         delay(2000);
         dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
@@ -70,6 +75,15 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
 
 void setup() {
   Serial.begin(115200);
+  
+  // Configure the PWM channel for the servo
+  ledcSetup(pwmChannel, pwmFrequency, pwmResolution);
+  ledcAttachPin(servoPin, pwmChannel);
+
+  // Initialize the servo to its original position (90 degrees)
+  int initialDutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
+  ledcWrite(pwmChannel, initialDutyCycle);
+  Serial.println("Servo initialized to 90 degrees.");
 
   // Create the BLE Device
   BLEDevice::init("Flash");
@@ -94,6 +108,7 @@ void setup() {
   // Register the callback for the ON button characteristic
   pLedCharacteristic->setCallbacks(new MyCharacteristicCallbacks());
 
+  // https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.descriptor.gatt.client_characteristic_configuration.xml
   // Create a BLE Descriptor
   pSensorCharacteristic->addDescriptor(new BLE2902());
   pLedCharacteristic->addDescriptor(new BLE2902());
@@ -108,16 +123,8 @@ void setup() {
   pAdvertising->setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
   BLEDevice::startAdvertising();
 
-  // Configure the PWM channel for the servo
-  ledcSetup(pwmChannel, pwmFrequency, pwmResolution);
-  ledcAttachPin(servoPin, pwmChannel);
-
-  // Initialize the servo to its original position (90 degrees)
-  int initialDutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
-  ledcWrite(pwmChannel, initialDutyCycle);
-  Serial.println("Servo initialized to 90 degrees.");
-
-  Serial.println("Waiting for a client connection to notify...");
+  
+  Serial.println("Waiting a client connection to notify...");
 }
 
 void loop() {
@@ -128,9 +135,8 @@ void loop() {
     value++;
     Serial.print("New value notified: ");
     Serial.println(value);
-    delay(3000);  // bluetooth stack will go into congestion if too many packets are sent
+    delay(3000);  // bluetooth stack will go into congestion, if too many packets are sent, in 6 hours test i was able to go as low as 3ms
   }
-
   // disconnecting
   if (!deviceConnected && oldDeviceConnected) {
     Serial.println("Device disconnected.");
@@ -139,7 +145,6 @@ void loop() {
     Serial.println("Start advertising");
     oldDeviceConnected = deviceConnected;
   }
-
   // connecting
   if (deviceConnected && !oldDeviceConnected) {
     // do stuff here on connecting
