@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ESP32 Web BLE App</title>
+    <title>畅行万科云城设计公社</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -9,20 +9,36 @@
 </head>
 <body>
     <div class="topnav">
-        <h1>ESP32 Web BLE Application</h1>
+        <h1>畅行云城</h1>
     </div>
     <div class="content">
-        <div class="card-grid">
+        <div class="card-grid vehicles">
             <div class="card">
-                <p>
-                    <button id="connectBleButton" class="connectButton"> Connect to BLE Device</button>
-                    <button id="disconnectBleButton" class="disconnectButton"> Disconnect BLE Device</button>
-                </p>
-                <p class="gray-label">BLE state: <strong><span id="bleState" style="color:#d13a30;">Disconnected</span></strong></p>
+                <h2>车辆</h2>
+                <div class="vehicle-container">
+                    <div class="vehicle-card">
+                        <h3>Quicksilver</h3>    
+                        <img src="https://www.chaihuo.org/Images/logo.png" alt="Quicksilver">
+                    </div>
+                    <div class="vehicle-card">
+                        <h3>Flash</h3>    
+                        <img src="https://www.chaihuo.org/Images/logo.png" alt="Flash">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-grid">   
+        <div class="card-grid">
             <div class="card">
+                <h2>连接车辆</h2>
+                <p>
+                    <button id="connectBleButton" class="connectButton"> 连接车辆</button>
+                    <button id="disconnectBleButton" class="disconnectButton"> 断开连接</button>
+                </p>
+                <p class="gray-label">连接状态: <strong><span id="bleState" style="color:#d13a30;">断开</span></strong></p>
+            </div>
+        </div>
+        <div class="card-grid" >   
+            <div class="card" style="display: none;">
                 <h2>Fetched Value</h2>
                 <p class="reading"><span id="valueContainer">NaN</span></p>
                 <p class="gray-label">Last reading: <span id="timestamp"></span></p>
@@ -32,13 +48,12 @@
                 <h2>车辆控制</h2>
                 <button id="onButton" class="onButton">开起</button>
                 <button id="offButton" class="offButton">关闭</button>
-                <p class="gray-label">Last value sent: <span id="valueSent"></span></p>
+                <p class="gray-label">当前状态: <span id="valueSent"></span></p>
             </div>
         </div>
     </div>
     <div class="footer">
-        <p><a href="https://randomnerdtutorials.com/">Created by RandomNerdTutorials.com</a></p>
-        <p><a href="https://RandomNerdTutorials.com/esp32-web-bluetooth/">Read the full project here.</a></p>
+        <p><a href="https://www.chaihuo.org/">Made by Makers</a></p>
     </div>
 </body>
 <script>
