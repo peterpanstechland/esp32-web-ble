@@ -73,6 +73,12 @@
     var ledCharacteristic = '19b10002-e8f2-537e-4f6c-d104768a1214';
     var sensorCharacteristic= '19b10001-e8f2-537e-4f6c-d104768a1214';
 
+        //Define BLE Device Specs
+    var deviceName ='Quicksilver';
+    var bleService = '8e877b12-0f8b-43cc-b137-6469353ed259';
+    var ledCharacteristic = '8e877b12-0f8b-43cc-b137-6469353ed259';
+    var sensorCharacteristic= '8e877b12-0f8b-43cc-b137-6469353ed259';
+
     //Global Variables to Handle Bluetooth
     var bleServer;
     var bleServiceFound;
@@ -96,7 +102,7 @@
     function isWebBluetoothEnabled() {
         if (!navigator.bluetooth) {
             console.log('Web Bluetooth API is not available in this browser!');
-            bleStateContainer.innerHTML = "Web Bluetooth API is not available in this browser/device!";
+            bleStateContainer.innerHTML = "当前设备不支持Web Bluetooth API!";
             return false
         }
         console.log('Web Bluetooth API supported in this browser.');
@@ -112,7 +118,7 @@
         })
         .then(device => {
             console.log('Device Selected:', device.name);
-            bleStateContainer.innerHTML = 'Connected to device ' + device.name;
+            bleStateContainer.innerHTML = '当前连接到' + device.name;
             bleStateContainer.style.color = "#24af37";
             device.addEventListener('gattservicedisconnected', onDisconnected);
             return device.gatt.connect();
@@ -148,7 +154,7 @@
 
     function onDisconnected(event){
         console.log('Device Disconnected:', event.target.device.name);
-        bleStateContainer.innerHTML = "Device disconnected";
+        bleStateContainer.innerHTML = "车辆已断开连接";
         bleStateContainer.style.color = "#d13a30";
 
         connectToDevice();
@@ -178,7 +184,7 @@
             });
         } else {
             console.error ("Bluetooth is not connected. Cannot write to characteristic.")
-            window.alert("Bluetooth is not connected. Cannot write to characteristic. \n Connect to BLE first!")
+            window.alert("车辆未连接，请先尝试重联车辆后再试！")
         }
     }
 
@@ -193,7 +199,7 @@
                     })
                     .then(() => {
                         console.log("Device Disconnected");
-                        bleStateContainer.innerHTML = "Device Disconnected";
+                        bleStateContainer.innerHTML = "车辆断开";
                         bleStateContainer.style.color = "#d13a30";
 
                     })
@@ -206,7 +212,7 @@
         } else {
             // Throw an error if Bluetooth is not connected
             console.error("Bluetooth is not connected.");
-            window.alert("Bluetooth is not connected.")
+            window.alert("未连接车辆.")
         }
     }
 
