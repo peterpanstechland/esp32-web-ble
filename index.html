@@ -42,6 +42,8 @@
                 <h2>车辆控制</h2>
                 <button id="onButton" class="onButton">开车</button>
                 <button id="offButton" class="offButton">结束</button>
+                <p class="gray-label">Last value sent: <span id="valueSent"></span></p>
+
             </div>
 
         </div>
@@ -193,7 +195,7 @@
                     })
                     .then(() => {
                         console.log("Device Disconnected");
-                        bleStateContainer.innerHTML = "Device Disconnected";
+                        bleStateContainer.innerHTML = "车辆断开连接";
                         bleStateContainer.style.color = "#d13a30";
 
                     })
