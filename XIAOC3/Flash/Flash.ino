@@ -20,9 +20,9 @@ const int pwmResolution = 10;  // Resolution of PWM signal (10-bit for finer con
 const int minDutyCycle = 26;   // Corresponds to 500us pulse width (~0 degrees)
 const int maxDutyCycle = 128;  // Corresponds to 2500us pulse width (~180 degrees)
 
-#define SERVICE_UUID "ad02a08d-204c-4f14-b209-593fc84b0a9d"
+#define SERVICE_UUID "0f2456a6-4bac-4503-b09a-ba88b67fc548"
 #define SENSOR_CHARACTERISTIC_UUID "ad02a08d-204c-4f14-b209-593fc84b0a9d"
-#define LED_CHARACTERISTIC_UUID "ad02a08d-204c-4f14-b209-593fc84b0a9d"
+#define LED_CHARACTERISTIC_UUID "466387d3-a394-49cf-b10e-4419d984fdc6"
 
 class MyServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
