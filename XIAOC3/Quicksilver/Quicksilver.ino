@@ -17,7 +17,7 @@ bool oldDeviceConnected = false;
 uint32_t value = 0;
 
 // Servo control using ESP32's LEDC
-const int servoPin = 16;       // GPIO pin connected to the servo signal
+const int servoPin = D1;       // GPIO pin connected to the servo signal
 const int pwmChannel = 0;      // PWM channel to use for the servo
 const int pwmFrequency = 50;   // Frequency for the servo (50 Hz is typical for servos)
 const int pwmResolution = 10;  // Resolution of PWM signal (10-bit for finer control)
@@ -54,7 +54,7 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
         Serial.println("Press once");
 
         // Map the value of 180 degrees to the duty cycle range
-        int dutyCycle = map(180, 0, 180, minDutyCycle, maxDutyCycle);
+        int dutyCycle = map(117, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
         delay(500);
         dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
@@ -63,7 +63,7 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
         Serial.println("Setting servo to 180 degrees...");
 
         // Map the value of 180 degrees to the duty cycle range
-        int dutyCycle = map(180, 0, 180, minDutyCycle, maxDutyCycle);
+        int dutyCycle = map(117, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
         delay(2000);
         dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
