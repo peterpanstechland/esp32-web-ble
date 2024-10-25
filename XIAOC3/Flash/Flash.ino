@@ -28,7 +28,7 @@ const int maxDutyCycle = 128;  // Corresponds to 2500us pulse width (~180 degree
 
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
-#define SERVICE_UUID        "19b10010-e8f2-537e-4f6c-d104768a1214"
+#define SERVICE_UUID "19b10010-e8f2-537e-4f6c-d104768a1214"
 #define LED_CHARACTERISTIC_UUID "19b10012-e8f2-537e-4f6c-d104768a1214"
 #define SENSOR_CHARACTERISTIC_UUID "19b10011-e8f2-537e-4f6c-d104768a1214"
 
@@ -51,21 +51,22 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
 
       int receivedValue = static_cast<int>(value[0]);
       if (receivedValue == 1) {
-        Serial.println("Press once");
-
-        // Map the value of 180 degrees to the duty cycle range
-        int dutyCycle = map(180, 0, 180, minDutyCycle, maxDutyCycle);
-        ledcWrite(pwmChannel, dutyCycle);
-        delay(500);
-        dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
-        ledcWrite(pwmChannel, dutyCycle);
-      } else if (receivedValue == 0){
         Serial.println("Setting servo to 180 degrees...");
 
         // Map the value of 180 degrees to the duty cycle range
-        int dutyCycle = map(180, 0, 180, minDutyCycle, maxDutyCycle);
+        int dutyCycle = map(130, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
         delay(2000);
+        dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+
+      } else if (receivedValue == 0) {
+        Serial.println("Press once");
+
+        // Map the value of 180 degrees to the duty cycle range
+        int dutyCycle = map(130, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+        delay(500);
         dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
       }
@@ -75,7 +76,7 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
 
 void setup() {
   Serial.begin(115200);
-  
+
   // Configure the PWM channel for the servo
   ledcSetup(pwmChannel, pwmFrequency, pwmResolution);
   ledcAttachPin(servoPin, pwmChannel);
@@ -123,7 +124,7 @@ void setup() {
   pAdvertising->setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
   BLEDevice::startAdvertising();
 
-  
+
   Serial.println("Waiting a client connection to notify...");
 }
 

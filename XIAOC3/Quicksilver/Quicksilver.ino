@@ -51,21 +51,21 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
 
       int receivedValue = static_cast<int>(value[0]);
       if (receivedValue == 1) {
-        Serial.println("Press once");
-
-        // Map the value of 180 degrees to the duty cycle range
-        int dutyCycle = map(117, 0, 180, minDutyCycle, maxDutyCycle);
-        ledcWrite(pwmChannel, dutyCycle);
-        delay(500);
-        dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
-        ledcWrite(pwmChannel, dutyCycle);
-      } else if (receivedValue == 0){
         Serial.println("Setting servo to 180 degrees...");
 
         // Map the value of 180 degrees to the duty cycle range
-        int dutyCycle = map(117, 0, 180, minDutyCycle, maxDutyCycle);
+        int dutyCycle = map(120, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
         delay(2000);
+        dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+      } else if (receivedValue == 0) {
+        Serial.println("Press once");
+
+        // Map the value of 180 degrees to the duty cycle range
+        int dutyCycle = map(120, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+        delay(500);
         dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
       }
@@ -75,7 +75,7 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
 
 void setup() {
   Serial.begin(115200);
-  
+
   // Configure the PWM channel for the servo
   ledcSetup(pwmChannel, pwmFrequency, pwmResolution);
   ledcAttachPin(servoPin, pwmChannel);
@@ -123,7 +123,7 @@ void setup() {
   pAdvertising->setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
   BLEDevice::startAdvertising();
 
-  
+
   Serial.println("Waiting a client connection to notify...");
 }
 

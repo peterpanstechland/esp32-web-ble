@@ -46,9 +46,10 @@
 
             <div class="card">
                 <h2>车辆控制</h2>
-                <button id="onButton" class="onButton">开起</button>
-                <button id="offButton" class="offButton">关闭</button>
-                <p class="gray-label">当前状态: <span id="valueSent"></span></p>
+                <button id="onButton" class="onButton">开关</button>
+                <button id="speeedButton" class="speeedButton">调速</button>
+                <button id="lightButton" class="lightButton">开灯</button>
+                <p class="gray-label" style="display: none;">当前状态: <span id="valueSent"></span></p>
             </div>
         </div>
     </div>
@@ -61,7 +62,8 @@
     const connectButton = document.getElementById('connectBleButton');
     const disconnectButton = document.getElementById('disconnectBleButton');
     const onButton = document.getElementById('onButton');
-    const offButton = document.getElementById('offButton');
+    const lightButton = document.getElementById('lightButton');
+    const speeedButton = document.getElementById('speeedButton');
     const retrievedValue = document.getElementById('valueContainer');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
@@ -101,7 +103,8 @@
 
     // Write to the ESP32 LED Characteristic
     onButton.addEventListener('click', () => writeOnCharacteristic(1));
-    offButton.addEventListener('click', () => writeOnCharacteristic(0));
+    lightButton.addEventListener('click', () => writeOnCharacteristic(0));
+    speeedButton.addEventListener('click', () => writeOnCharacteristic(2));
 
     // Check if BLE is available in your Browser
     function isWebBluetoothEnabled() {
