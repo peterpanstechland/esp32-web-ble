@@ -51,7 +51,7 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
 
       int receivedValue = static_cast<int>(value[0]);
       if (receivedValue == 1) {
-        Serial.println("Setting servo to 180 degrees...");
+        Serial.println("Long press");
 
         // Map the value of 180 degrees to the duty cycle range
         int dutyCycle = map(120, 0, 180, minDutyCycle, maxDutyCycle);
@@ -66,6 +66,21 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
         int dutyCycle = map(120, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
         delay(500);
+        dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+      } else if (receivedValue == 2) {
+        Serial.println("Press Twice");
+        // Map the value of 180 degrees to the duty cycle range
+        int dutyCycle = map(120, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+        delay(200);
+        dutyCycle = map(100, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+        delay(100);
+        // Map the value of 180 degrees to the duty cycle range
+        dutyCycle = map(120, 0, 180, minDutyCycle, maxDutyCycle);
+        ledcWrite(pwmChannel, dutyCycle);
+        delay(200);
         dutyCycle = map(90, 0, 180, minDutyCycle, maxDutyCycle);
         ledcWrite(pwmChannel, dutyCycle);
       }
